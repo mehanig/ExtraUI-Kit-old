@@ -23,6 +23,7 @@
     "LICENSE",
     "main.js"
   ],
+  "homepage": "https://github.com/mehanig/ExtraUI-Kit",
   "main": "main.js",
   "dependencies": {
     "radium": "^0.19.1",
