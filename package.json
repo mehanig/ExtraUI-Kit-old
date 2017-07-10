@@ -1,6 +1,6 @@
 {
   "name": "extraui-kit",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "devDependencies": {
     "@types/node": "^7.0.31",
     "@types/react": "^15.0.28",
@@ -25,6 +25,10 @@
   ],
   "homepage": "https://github.com/mehanig/ExtraUI-Kit",
   "main": "main.js",
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/mehanig/ExtraUI-Kit.git"
+  },
   "dependencies": {
     "radium": "^0.19.1",
     "save-dev": "^2.0.0",
