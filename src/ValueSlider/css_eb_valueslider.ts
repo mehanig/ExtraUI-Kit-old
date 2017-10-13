@@ -1,20 +1,21 @@
+import {CONST as C} from "../css_const";
 import {ICSSProperties} from "../css_types";
 
 const MainBase: ICSSProperties = {
   display: "flex",
-  justifyContent: "flex-start",
+  justifyContent: "space-between",
   flexDirection: "row",
   alignItems: "center",
-  fontFamily: "Helvetica Neue, Helvetica, Arial, sans-serif",
-  borderBottom: "1px solid black",
+  fontFamily: "HelveticaNeue, Helvetica Neue, HelveticaNeueRoman, HelveticaNeue-Roman, Helvetica Neue Roman, TeXGyreHerosRegular, Helvetica, Tahoma, Geneva, Arial",
   height: "20px",
-  color: "#fff",
-  fontSize: 11,
+  color: C.TextColor,
+  fontSize: C.FontSize,
   padding: "2px 2px",
   outline: "none",
   userSelect: "none",
   listStyle: "none",
   margin: "10px",
+  boxSizing: "border-box",
 };
 
 const Title: ICSSProperties = {
@@ -28,6 +29,11 @@ const Draggable: ICSSProperties = {
   },
   "cursor": "pointer",
   "marginLeft": "auto",
+  "padding": "3px 12px 3px 12px",
+  "background": C.Darken20,
+  "minWidth": "40px",
+  "maxWidth": "40px",
+  "boxSizing": "border-box",
 };
 
 const InputField: ICSSProperties = {

@@ -24,10 +24,21 @@ interface ICSSProperties {
   userSelect?: string,
   float?: string,
   listStyle?: string,
+  alignSelf?: string,
+  overflow?: string,
+  backgroundRepeat?: string,
+  background?: string,
   ":hover"?: object,
   ":focus"?: object,
   ":active"?: object,
   ":checked"?: object,
+  boxSizing?: string,
+  minWidth?: string,
+  maxWidth?: string
+  paddingLeft?: string,
+  paddingRight?: string,
+  paddingTop?: string,
+  paddingBottom?: string
 }
 
 export {ICSSProperties};
