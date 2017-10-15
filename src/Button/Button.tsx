@@ -3,30 +3,32 @@ import * as React from "react";
 import {ICSSProperties} from "../css_types";
 import {AEButton, AECssActive, AECssDisabled, CssActive, CssBase, CssDisabled, CssPBase} from "./css_eb_button";
 
-export type StringFunction = () => string;
-
 export interface IButtonProps {
-  children?: React.ReactChild,
-  className?: string,
+  /** Callback function to be invoked when button is clicked */
   onClickHandler?: any,
-  text?: string | StringFunction,
+  /** Text to appear on button */
+  text?: string,
+  /** Specify if button should be non clickable */
   disabled?: any,
+  /** Extra parameter to specify if button should be used without styling */
   UIType?: string
 }
 
 export interface IButtonState {
-  onClickHandler?: any
-  buttonText?: string | StringFunction
+  buttonText?: string
   isDisabled?: boolean
 }
 
-class EBButton extends React.Component<IButtonProps, IButtonState> {
+/**
+ * Button component
+ */
+@Radium
+export default class Button extends React.Component<IButtonProps, IButtonState> {
   constructor(props: IButtonProps) {
     super();
     this.state = {
-      onClickHandler: props.onClickHandler,
       buttonText: props.text || "Button",
-      isDisabled: props.disabled ? true : false,
+      isDisabled: !!props.disabled,
     };
     this.onClickHandler = this.onClickHandler.bind(this);
   }
@@ -47,11 +49,7 @@ class EBButton extends React.Component<IButtonProps, IButtonState> {
     );
   }
 
-  private onClickHandler(): void {
-    this.state.onClickHandler();
+  private onClickHandler(e: React.MouseEvent<any>, obj: any): void {
+    this.props.onClickHandler(e, obj);
   }
 }
-
-export { EBButton };
-const Button = Radium(EBButton);
-export { Button };

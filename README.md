@@ -4,6 +4,13 @@ Set of independent React styled components made to mimic Adobe AfterEffects user
 ### How to use
 `npm install extraui-kit`
 
+### Documentation
+Available at: https://mehanig.github.io/ExtraUI-Kit/styleguide/
+
+Or in: `./styleguide`
+
+Can be generated using: `npm run styleguide:build`
+
 ### Codestyle
 
 run tslint from main directory
@@ -11,7 +18,7 @@ run tslint from main directory
 `tslint src/**/*.ts{,x} --fix` 
 
 
-##List of components
+## List of components
 
 
 ### Button

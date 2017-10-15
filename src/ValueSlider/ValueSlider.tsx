@@ -3,7 +3,7 @@ import * as React from "react";
 import {ICSSProperties} from "../css_types";
 import * as css from "./css_eb_valueslider";
 import ChangeEvent = React.ChangeEvent;
-import * as Icons from "../Icons/_allIcons";
+import Icons from "../Icons/Icons";
 
 export type StringFunction = () => string;
 export type StringToVoid = (f: string | number) => void;
@@ -11,17 +11,25 @@ export type AnyToVoid = (f: any) => void;
 export type VoidFunction = () => void;
 
 export interface IValueSliderProps {
-  children?: React.ReactChild,
-  className?: string,
+  /** Specify if slider should be non clickable and non draggable */
   disabled?: boolean,
+  /** Specify maxValue for slider, otherwise there will be no limits */
   maxValue: number,
+  /** Specify minValue for slider, otherwise there will be no limits */
   minValue: number
+  /** Title to be presented on the left of slider */
   title: string | StringFunction,
+  /** Default slider value at start */
   currentValue?: number,
+  /** Function to be called after every value change */
   notifyOnChange?: StringToVoid,
+  /** Function to be called after slide action is ended */
   slideDidEnd?: VoidFunction,
+  /** Function to be called after slide action is ended */
   sizeH?: number,
+  /** Name of Icon, should match string from Icon components */
   icon?: string,
+  /** Function to be called if user clicks on Icon */
   iconClick?: AnyToVoid
 }
 
@@ -39,13 +47,17 @@ export interface IValueSliderState {
   shiftPressed: boolean
 }
 
-class EBValueSlider extends React.Component<IValueSliderProps, IValueSliderState> {
+/**
+ * Input element with support for click-and-drag change events
+ */
+@Radium
+export default class ValueSlider extends React.Component<IValueSliderProps, IValueSliderState> {
   constructor(props: IValueSliderProps) {
     super();
     const max: number = props.maxValue;
     const min: number = props.minValue;
     this.state = {
-      isDisabled: props.disabled ? true : false,
+      isDisabled: !!props.disabled,
       title: props.title,
       currentValue: !isNaN(props.currentValue) ? props.currentValue : (min + max) / 2,
       mouseMoveReady: false,
@@ -101,17 +113,17 @@ class EBValueSlider extends React.Component<IValueSliderProps, IValueSliderState
           />
         </span>
       );
-    const IconComponentOpt = this.props.icon ? Icons[this.props.icon] : false;
+    const IconComponentOpt = this.props.icon ? <Icons type={this.props.icon}/> : false;
     const IconComponentWithClick = this.props.icon && this.props.iconClick ?
       (
         <span
           style={{cursor: "pointer"}}
           onClick={this.handleIconClick}
         >
-          <IconComponentOpt/>
+          {IconComponentOpt}
         </span>
       )
-      : <IconComponentOpt/>;
+      : {IconComponentOpt};
     return (
       <div>
         <Radium.StyleRoot>
@@ -154,7 +166,6 @@ class EBValueSlider extends React.Component<IValueSliderProps, IValueSliderState
   private onMouseDown(mouseEvent: React.MouseEvent<HTMLSpanElement>): void {
     const max: number = this.props.maxValue;
     const min: number = this.props.minValue;
-    // console.log(mouseEvent);
     this.setState({
       mouseMoveReady: true,
       initialXPos: mouseEvent.pageX,
@@ -163,8 +174,6 @@ class EBValueSlider extends React.Component<IValueSliderProps, IValueSliderState
     window.addEventListener("mousemove", this.onMouseMove);
     window.addEventListener("mouseup", this.onMouseUp);
 
-    // window.addEventListener("keydown", this.handlePressedShift);
-    // window.addEventListener("keyup", this.handleReleasedShift);
   }
 
   private onMouseMove(mouseEvent: any): void {
@@ -208,8 +217,8 @@ class EBValueSlider extends React.Component<IValueSliderProps, IValueSliderState
   }
 
   private outsideEditValueBoxClick(mouseEvent: any): void {
-    const target_id = mouseEvent.target.id;
-    if (target_id !== this.state.input_id) {
+    const targetId = mouseEvent.target.id;
+    if (targetId !== this.state.input_id) {
       this.unmountEditValueBoxSave();
     }
   }
@@ -228,7 +237,3 @@ class EBValueSlider extends React.Component<IValueSliderProps, IValueSliderState
       this.props.iconClick(mouseEvent);
   }
 }
-
-export { EBValueSlider };
-const ValueSlider = Radium(EBValueSlider);
-export { ValueSlider };

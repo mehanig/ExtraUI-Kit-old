@@ -7,14 +7,21 @@ export type StringFunction = () => string;
 export type StringToVoid = (f: string | number) => void;
 
 export interface IRadioButtonProps {
+  /** Name for Radiobutton Group */
   name: string,
-  children?: React.ReactChild,
-  className?: string,
+  /** List of available values, if `textValues` list not specified, this array will be used both for displaying
+   * text right of radiobox and for values
+   */
   values: [string],
+  /** Specify if should be disabled */
   disabled?: any,
+  /** Optional list of values to present readable names for labels, should be same length as `values` array  */
   textValues?: [string | StringFunction],
+  /** Title for radiogroup */
   title?: string | StringFunction,
+  /** Default selected value, should be from values list */
   selectedOption?: string,
+  /** Function to be called after every value change */
   notifyOnChange?: StringToVoid
 }
 
@@ -27,12 +34,16 @@ export interface IRadioButtonState {
   selectedOption?: string,
 }
 
-class EBRadioButtonList extends React.Component<IRadioButtonProps, IRadioButtonState> {
+/**
+ * Group of radiobuttons
+ */
+@Radium
+export default class RadiobuttonList extends React.Component<IRadioButtonProps, IRadioButtonState> {
   constructor(props: IRadioButtonProps) {
     super();
     this.state = {
       values: props.values,
-      isDisabled: props.disabled ? true : false,
+      isDisabled: !!props.disabled,
       name: props.name,
       textValues: props.textValues ? props.textValues : props.values,
       title: props.title,
@@ -72,7 +83,7 @@ class EBRadioButtonList extends React.Component<IRadioButtonProps, IRadioButtonS
       <div>
         <Radium.StyleRoot>
           <div style={[css.UlBase]}>
-            {this.state.title ? <div style={[css.Title]}>{this.state.title}: {this.state.selectedOption}</div> : null}
+            {this.state.title ? <div style={[css.Title]}>{this.state.title}</div> : null}
             {liElements}
           </div>
         </Radium.StyleRoot>
@@ -102,7 +113,3 @@ class EBRadioButtonList extends React.Component<IRadioButtonProps, IRadioButtonS
     this._updateStateAndNotify(safeSearchTypeValue);
   }
 }
-
-export { EBRadioButtonList };
-const RadioButtonList = Radium(EBRadioButtonList);
-export { RadioButtonList };

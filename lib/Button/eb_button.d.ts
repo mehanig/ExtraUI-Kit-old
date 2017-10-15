@@ -13,11 +13,8 @@ export interface IButtonState {
     buttonText?: string | StringFunction;
     isDisabled?: boolean;
 }
-declare class EBButton extends React.Component<IButtonProps, IButtonState> {
+export declare class Button extends React.Component<IButtonProps, IButtonState> {
     constructor(props: IButtonProps);
     render(): JSX.Element;
     private onClickHandler();
 }
-export { EBButton };
-declare const Button: any;
-export { Button };

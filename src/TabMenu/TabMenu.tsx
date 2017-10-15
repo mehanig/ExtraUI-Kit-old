@@ -1,29 +1,34 @@
 import * as Radium from "radium";
 import * as React from "react";
 import {ICSSProperties} from "../css_types";
+import Icons from "../Icons/Icons";
 import * as css from "./css_eb_tabmenu";
-import ReactChild = React.ReactChild;
-import * as Icons from "../Icons/_allIcons";
-import { Tab } from "./eb_tab";
+import Tab from "./Tab";
 
 export type StringFunction = () => string;
 export type StringToVoid = (f: string | number) => void;
 
 export interface ITabMenuProps {
-  name: string,
-  children?: React.ReactChild,
-  className?: string,
+  /** Each containing `Tab` component should have one of this values specified as value.
+   * List of available values, if `textValues` list not specified, this array will be used both for displaying
+   * text at tabs and for values
+   */
   values: [string],
+  /** Specify if tabs should be non-clickable */
   disabled?: any,
+  /** If presented, textValues will be used for displaying text at TabMenu header */
   textValues?: [string | StringFunction],
+  /** Value of selected tab */
   selectedOption?: string,
+  /** Title of TabMenu */
   title?: string,
+  /** Function to be called after every selected tab change */
   notifyOnChange?: StringToVoid,
+  /** Function to be called when clicked on every Tab */
   onClick?: any
 }
 
 export interface ITabMenuState {
-  name: string
   isDisabled?: boolean,
   values: [string],
   textValues: [string | StringFunction],
@@ -31,13 +36,16 @@ export interface ITabMenuState {
   selectedOption?: string,
 }
 
-class EBTabMenu extends React.Component<ITabMenuProps, ITabMenuState> {
+/**
+ * Menu component with multiple tabs
+ */
+@Radium
+export default class TabMenu extends React.Component<ITabMenuProps, ITabMenuState> {
   constructor(props: ITabMenuProps) {
     super();
     this.state = {
       values: props.values,
-      isDisabled: props.disabled ? true : false,
-      name: props.name,
+      isDisabled: !!props.disabled,
       textValues: props.textValues ? props.textValues : props.values,
       selectedOption: props.selectedOption,
     };
@@ -59,9 +67,9 @@ class EBTabMenu extends React.Component<ITabMenuProps, ITabMenuState> {
 
       const tabElement = (allTabs[index] as JSX.Element);
       const tabIcon = tabElement.props.icon ? tabElement.props.icon : false;
-      const Component = tabIcon ? Icons[tabIcon] : null;
+      const Component = tabIcon ? <Icons type={tabIcon}/> : null;
       const tabContent = tabIcon ? (
-          <span><Component/></span>
+          <span>{Component}</span>
         ) : (
           <span>{this.state.textValues[index]}</span>
         );
@@ -111,7 +119,3 @@ class EBTabMenu extends React.Component<ITabMenuProps, ITabMenuState> {
     }
   }
 }
-
-export { EBTabMenu };
-const TabMenu = Radium(EBTabMenu);
-export { TabMenu };
